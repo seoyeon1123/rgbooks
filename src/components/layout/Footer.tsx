@@ -5,7 +5,7 @@ const Footer = () => {
         <div className="text-sm">
           <h1 className="text-3xl font-LOTTERIADDAG">알지북스</h1>
         </div>
-        <div className="flex space-x-4">
+        <div className="flex flex-col">
           <p>이메일 : rgt@rgt.kr</p>
           <p> Copyright ⓒ rgbooks Corp. All Rights Reserved.</p>
         </div>

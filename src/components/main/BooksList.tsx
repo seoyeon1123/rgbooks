@@ -17,7 +17,7 @@ const BooksList = ({ books, booksPerPage = 10 }: BooksListProps) => {
   const currentBooks = books.slice(startIndex, startIndex + booksPerPage);
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center ">
+    <div className="h-full flex flex-col justify-center items-center ">
       <div className="flex-grow">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
           {currentBooks.map((book) => (

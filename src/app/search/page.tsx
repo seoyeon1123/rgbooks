@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/components/common/Loading';
 import BooksList from '@/components/main/BooksList';
 import { Book } from '@/types/bookTypes';
 import { useSearchParams } from 'next/navigation';
@@ -35,11 +36,7 @@ const SearchPage = () => {
       <h1 className="text-2xl text-start font-semibold mb-5">
         <span className="text-red-600 pr-2 text-3xl">&quot;{query}&quot;</span> 에 대한 {results.length}개의 검색 결과
       </h1>
-      {loading ? (
-        <p>로딩 중...</p>
-      ) : (
-        <>{results.length > 0 ? <BooksList books={results} /> : <p>검색 결과가 없습니다.</p>}</>
-      )}
+      {loading ? <Loading /> : <>{results.length > 0 ? <BooksList books={results} /> : <p>검색 결과가 없습니다.</p>}</>}
     </div>
   );
 };

@@ -1,13 +1,13 @@
 import Image from 'next/image';
-import book1 from '../../public/assets/loading/book1.png';
-import book2 from '../../public/assets/loading/book2.png';
-import book3 from '../../public/assets/loading/book3.png';
-import book4 from '../../public/assets/loading/book4.png';
+import book1 from '../../../public/assets/loading/book1.png';
+import book2 from '../../../public/assets/loading/book2.png';
+import book3 from '../../../public/assets/loading/book3.png';
+import book4 from '../../../public/assets/loading/book4.png';
 
 const Loading = () => {
   return (
-    <div className="flex justify-center items-center h-full bg-white">
-      <div className="flex flex-col gap-2 justify-center items-center mx-auto">
+    <div className="flex justify-center items-center h-screen bg-white">
+      <div className="flex flex-col gap-2 justify-start items-start mx-auto">
         <div className="flex flex-row gap-4 justify-center items-center">
           <Image
             src={book1}

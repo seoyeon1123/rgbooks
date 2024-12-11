@@ -41,9 +41,9 @@ const Header = () => {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-around items-center p-4 bg-white shadow-md">
       <div className="flex items-center gap-2">
-        <BookOpenIcon className="h-9 w-9" />
-        <Link href={'/'} className="text-3xl font-bold text-darkBlue sm:hidden xs:hidden font-LOTTERIADDAG">
-          알지북스
+        <Link href={'/'} className="flex items-center gap-2">
+          <BookOpenIcon className="h-9 w-9" />
+          <span className="text-3xl font-bold text-darkBlue sm:hidden xs:hidden font-LOTTERIADDAG">알지북스</span>
         </Link>
       </div>
 
