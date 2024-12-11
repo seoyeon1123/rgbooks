@@ -33,3 +33,12 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json({ error: 'Failed to update book' }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+  try {
+    await db.book.delete({ where: { id: Number(params.id) } });
+    return NextResponse.json({ message: 'Book deleted successfully' }, { status: 204 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to delete book' }, { status: 500 });
+  }
+}

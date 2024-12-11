@@ -8,6 +8,7 @@ import ImageUpload from '@/components/add/ImageUpload';
 import { useState } from 'react';
 import { bookStateAdd } from '@/state/bookState';
 import { bookSchema } from '@/lib/validation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const initialBookData = {
   title: '',
@@ -22,6 +23,27 @@ const BookAdd = () => {
   const [bookData, setBookData] = useRecoilState(bookStateAdd);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const addBookMutation = useMutation({
+    mutationFn: async (bookData: typeof initialBookData) => {
+      const response = await fetch('/api/books', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add book');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['books'] });
+    },
+  });
 
   const handleInputChange = (name: string, value: string | number) => {
     setBookData((prev) => ({ ...prev, [name]: value }));
@@ -41,23 +63,17 @@ const BookAdd = () => {
       return;
     }
 
-    try {
-      const response = await fetch('/api/books', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookData),
-      });
-
-      if (response.ok) {
+    // mutate 호출을 기다린 후 후속 작업 실행
+    addBookMutation
+      .mutateAsync(bookData)
+      .then(() => {
         alert('책이 등록되었습니다 📚');
-        setBookData(initialBookData); // 상태 초기화
+        setBookData(initialBookData);
         router.push('/');
-      }
-    } catch (error) {
-      console.error('Error adding book:', error);
-    }
+      })
+      .catch((error) => {
+        setErrors(error);
+      });
   };
 
   return (

@@ -1,110 +1,42 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Loading from './Loading';
-
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  quantity: number;
-  imageUrl: string;
-  description: string;
-}
+import BooksList from '@/components/main/BooksList';
+import ErrorMessage from '@/components/common/Error';
+import { Book } from '@/types/bookTypes';
+import { fetchBooks } from '@/services/bookService';
 
 const Page = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const booksPerPage = 10;
+  const {
+    data: books = [],
+    error,
+    isLoading,
+  } = useQuery<Book[], Error>({
+    queryKey: ['books'],
+    queryFn: fetchBooks,
+  });
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await fetch('/api/books', {
-          method: 'GET',
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch books');
-        }
-
-        const data: Book[] = await response.json();
-        setBooks(data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('An unexpected error occurred');
-        }
-      } finally {
-        setLoading(false); // 데이터 로딩 후 로딩 상태 false로 변경
-      }
-    };
-
-    fetchBooks();
-  }, []);
-
-  const startIndex = (currentPage - 1) * booksPerPage;
-  const currentBooks = books.slice(startIndex, startIndex + booksPerPage);
-
-  const totalPages = Math.ceil(books.length / booksPerPage);
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-red-500 text-lg">{error}</p>
-      </div>
-    );
+  if (error instanceof Error) {
+    return <ErrorMessage message={error.message} />;
   }
 
-  if (loading) {
-    // 로딩 상태일 때 로딩 컴포넌트 표시
+  if (isLoading) {
     return <Loading />;
   }
 
   if (books.length === 0) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-gray-500 text-lg">등록된 책이 없습니다.</p>
-      </div>
-    );
+    return <ErrorMessage message="책이 없습니다." />;
   }
 
   return (
     <div className="container mx-auto my-10 flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold text-center mb-8">등록된 책 목록</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
-        {currentBooks.map((book) => (
-          <Link
-            href={`/books/${book.id}`}
-            key={book.id}
-            className="flex flex-col justify-between items-center w-[240px] h-[400px] p-4 ">
-            <div className="w-[200px] h-[300px] relative">
-              <Image src={book.imageUrl} alt={book.title} fill className="rounded-md object-cover" />
-            </div>
-            <h2 className="text-lg font-semibold text-center my-2 overflow-hidden">{book.title}</h2>
-            <p className="text-gray-700 text-center text-sm overflow-hidden">{book.author}</p>
-          </Link>
-        ))}
-      </div>
+      <h1 className="text-4xl font-extrabold text-center mb-4 text-gray-800">
+        📖 <span className="text-orange-600">전체</span> <span className="text-blue-600">책</span> 목록
+      </h1>
+      <p className="text-gray-600 text-lg text-center mb-8">다양한 책들을 둘러보고 원하는 책을 선택하세요!</p>
 
-      <div className="flex justify-center items-center mt-8">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index}
-            className={`px-4 py-2 mx-1 text-white rounded ${
-              currentPage === index + 1 ? 'bg-blue-500' : 'bg-gray-300 hover:bg-gray-400'
-            }`}
-            onClick={() => setCurrentPage(index + 1)}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
+      <BooksList books={books} />
     </div>
   );
 };

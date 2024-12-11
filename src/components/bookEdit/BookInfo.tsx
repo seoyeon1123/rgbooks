@@ -1,6 +1,7 @@
 import { FaUser, FaTag, FaBox } from 'react-icons/fa';
+import { formatPrice } from './formatPrice';
 
-interface BookInfoFieldProps {
+interface IBookInfoFieldProps {
   label: string;
   value: string | number;
   editMode: boolean;
@@ -8,7 +9,7 @@ interface BookInfoFieldProps {
   type: 'text' | 'number';
 }
 
-const BookInfo = ({ label, value, editMode, onChange, type }: BookInfoFieldProps) => {
+const BookInfo = ({ label, value, editMode, onChange, type }: IBookInfoFieldProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = type === 'number' ? parseFloat(e.target.value) : e.target.value;
     onChange(newValue);
@@ -28,7 +29,9 @@ const BookInfo = ({ label, value, editMode, onChange, type }: BookInfoFieldProps
           className="text-lg text-gray-600 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-darkBlue transition-colors"
         />
       ) : (
-        <p className="text-lg text-gray-600">{value}</p>
+        <p className="text-lg text-gray-600">
+          {label === '가격' && typeof value === 'number' ? formatPrice(value) : value}
+        </p>
       )}
     </div>
   );
