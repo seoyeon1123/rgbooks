@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Loading from './Loading'; // Loading 컴포넌트 임포트
+import Loading from './Loading';
 
 interface Book {
   id: number;
@@ -19,7 +19,7 @@ const Page = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const [loading, setLoading] = useState(true);
   const booksPerPage = 10;
 
   useEffect(() => {
@@ -35,8 +35,12 @@ const Page = () => {
 
         const data: Book[] = await response.json();
         setBooks(data);
-      } catch (error: any) {
-        setError(error.message || 'An unexpected error occurred');
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('An unexpected error occurred');
+        }
       } finally {
         setLoading(false); // 데이터 로딩 후 로딩 상태 false로 변경
       }
@@ -79,22 +83,12 @@ const Page = () => {
           <Link
             href={`/books/${book.id}`}
             key={book.id}
-            className="flex flex-col justify-between items-center w-[240px] h-[400px] p-4 "
-          >
+            className="flex flex-col justify-between items-center w-[240px] h-[400px] p-4 ">
             <div className="w-[200px] h-[300px] relative">
-              <Image
-                src={book.imageUrl}
-                alt={book.title}
-                fill
-                className="rounded-md object-cover"
-              />
+              <Image src={book.imageUrl} alt={book.title} fill className="rounded-md object-cover" />
             </div>
-            <h2 className="text-lg font-semibold text-center my-2 overflow-hidden">
-              {book.title}
-            </h2>
-            <p className="text-gray-700 text-center text-sm overflow-hidden">
-              {book.author}
-            </p>
+            <h2 className="text-lg font-semibold text-center my-2 overflow-hidden">{book.title}</h2>
+            <p className="text-gray-700 text-center text-sm overflow-hidden">{book.author}</p>
           </Link>
         ))}
       </div>
@@ -104,12 +98,9 @@ const Page = () => {
           <button
             key={index}
             className={`px-4 py-2 mx-1 text-white rounded ${
-              currentPage === index + 1
-                ? 'bg-blue-500'
-                : 'bg-gray-300 hover:bg-gray-400'
+              currentPage === index + 1 ? 'bg-blue-500' : 'bg-gray-300 hover:bg-gray-400'
             }`}
-            onClick={() => setCurrentPage(index + 1)}
-          >
+            onClick={() => setCurrentPage(index + 1)}>
             {index + 1}
           </button>
         ))}

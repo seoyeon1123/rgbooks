@@ -18,6 +18,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(newBook, { status: 201 });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
     return NextResponse.json({ error: 'Failed to add book' }, { status: 500 });
   }
@@ -28,9 +29,6 @@ export async function GET() {
     const books = await db.book.findMany();
     return NextResponse.json(books);
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to fetch books' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch books' }, { status: 500 });
   }
 }

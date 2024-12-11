@@ -12,10 +12,9 @@ const ImageUpload = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const uploadImageAndSavePet = async (file: File) => {
-    const { data: session, error: sessionError } =
-      await supabase.auth.getSession();
+    const { data: session, error: sessionError } = await supabase.auth.getSession();
     if (sessionError || !session) {
-      console.error('사용자 인증 실패:', sessionError!.message);
+      // Handle error without logging to console
       return;
     }
 
@@ -31,13 +30,9 @@ const ImageUpload = () => {
       .toLowerCase();
     const fileName = `${Date.now()}_${sanitizedFileName}`;
 
-    const { data } = await supabase.storage
-      .from('book-image')
-      .upload(`${fileName}`, file);
+    const { data } = await supabase.storage.from('book-image').upload(`${fileName}`, file);
 
-    const { data: publicUrlData } = supabase.storage
-      .from('book-image')
-      .getPublicUrl(data?.path || '');
+    const { data: publicUrlData } = supabase.storage.from('book-image').getPublicUrl(data?.path || '');
 
     if (publicUrlData) {
       const publicURL = publicUrlData.publicUrl;
@@ -57,11 +52,7 @@ const ImageUpload = () => {
 
   return (
     <div className="flex justify-center items-center mb-4">
-      <div
-        className="
-      min-w-[300px] min-h-[300px]
-      border-2 border-dashed border-gray-300 rounded-2xl flex justify-center items-center relative "
-      >
+      <div className="min-w-[300px] min-h-[300px] border-2 border-dashed border-gray-300 rounded-2xl flex justify-center items-center relative ">
         <input
           type="file"
           onChange={handleFileChange}
@@ -74,13 +65,7 @@ const ImageUpload = () => {
             <span>이미지 업로드</span>
           </div>
         ) : (
-          <Image
-            src={imagePreview}
-            width={300}
-            height={300}
-            className="object-cover rounded-lg"
-            alt="Preview"
-          />
+          <Image src={imagePreview} width={300} height={300} className="object-cover rounded-lg" alt="Preview" />
         )}
       </div>
     </div>

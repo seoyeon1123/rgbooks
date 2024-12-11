@@ -52,11 +52,8 @@ const BookAdd = () => {
 
       if (response.ok) {
         alert('책이 등록되었습니다 📚');
-        // 상태 초기화
-        setBookData(initialBookData);
+        setBookData(initialBookData); // 상태 초기화
         router.push('/');
-      } else {
-        console.log('Failed to add book');
       }
     } catch (error) {
       console.error('Error adding book:', error);
@@ -66,9 +63,7 @@ const BookAdd = () => {
   return (
     <div className="flex items-center justify-center my-10">
       <div className="flex flex-col gap-6 justify-center items-center max-w-lg w-full p-6">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          등록할 책의 정보를 입력해주세요.
-        </h1>
+        <h1 className="text-2xl font-semibold text-gray-800">등록할 책의 정보를 입력해주세요.</h1>
         <form className="w-full space-y-4" onSubmit={handleSubmit}>
           <ImageUpload />
 
@@ -112,16 +107,9 @@ const BookAdd = () => {
             name="description"
             placeholder="책에 대한 소개를 입력해주세요."
             className="p-5 border border-gray-300 rounded-2xl focus:outline-none focus:ring-1 focus:ring-darkBlue focus:border-darkBlue transition duration-300 ease-in-out w-full"
-            onChange={(e) =>
-              setBookData({ ...bookData, description: e.target.value })
-            }
-            rows={5}
-          ></textarea>
-          {errors.description && (
-            <span className="text-red-500 text-sm text-end">
-              {errors.description}
-            </span>
-          )}
+            onChange={(e) => setBookData({ ...bookData, description: e.target.value })}
+            rows={5}></textarea>
+          {errors.description && <span className="text-red-500 text-sm text-end">{errors.description}</span>}
 
           <Button description="저장" type="submit" />
         </form>

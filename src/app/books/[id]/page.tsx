@@ -17,19 +17,15 @@ const BookDetail = ({ params }: { params: { id: string } }) => {
   const [error, setError] = useState<string | null>(null);
   const [editMode, setEditMode] = useState(false);
 
-  const [bookEditStateValue, setBookEditStateValue] =
-    useRecoilState(bookEditState);
+  const [bookEditStateValue, setBookEditStateValue] = useRecoilState(bookEditState);
 
   useEffect(() => {
     const fetchBook = async () => {
       try {
         const response = await fetch(`/api/books/${id}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch book details');
-        }
+        if (!response.ok) throw new Error('Failed to fetch book details');
         const data: Book = await response.json();
         setBook(data);
-
         setBookEditStateValue({
           title: data.title,
           author: data.author,
@@ -38,8 +34,12 @@ const BookDetail = ({ params }: { params: { id: string } }) => {
           imageUrl: data.imageUrl,
           description: data.description,
         });
-      } catch (error: any) {
-        setError(error.message || 'An unexpected error occurred');
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('An unexpected error occurred');
+        }
       } finally {
         setLoading(false);
       }
@@ -69,8 +69,16 @@ const BookDetail = ({ params }: { params: { id: string } }) => {
       const updatedData = await response.json();
       setBook(updatedData);
       setEditMode(false);
-    } catch (error) {
-      console.error(error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
+
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(error);
+      }
     }
   };
 

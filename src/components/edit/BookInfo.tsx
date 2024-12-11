@@ -8,16 +8,9 @@ interface BookInfoFieldProps {
   type: 'text' | 'number';
 }
 
-const BookInfo = ({
-  label,
-  value,
-  editMode,
-  onChange,
-  type,
-}: BookInfoFieldProps) => {
+const BookInfo = ({ label, value, editMode, onChange, type }: BookInfoFieldProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue =
-      type === 'number' ? parseFloat(e.target.value) : e.target.value;
+    const newValue = type === 'number' ? parseFloat(e.target.value) : e.target.value;
     onChange(newValue);
   };
 

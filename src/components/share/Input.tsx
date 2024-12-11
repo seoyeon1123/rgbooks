@@ -9,19 +9,12 @@ interface IInputProps {
   error?: string;
 }
 
-const Input = ({
-  type,
-  name,
-  value,
-  onChange,
-  placeholder,
-  error,
-}: IInputProps) => {
+const Input = ({ type, name, value, onChange, placeholder, error }: IInputProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue =
-      type === 'number' ? Number(e.target.value) || '' : e.target.value;
+    const inputValue = type === 'number' ? Number(e.target.value) || '' : e.target.value;
     onChange(name, inputValue);
   };
+
   return (
     <div className="flex flex-col items-start gap-2">
       <input
