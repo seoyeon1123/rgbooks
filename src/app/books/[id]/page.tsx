@@ -101,7 +101,7 @@ const BookDetail = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="mx-auto px-6  pb-20 xl:px-[300px] relative">
+    <div className="mx-auto min-h-screen px-6  pb-20 xl:px-[300px] relative">
       <EditModeButtons
         editMode={editMode}
         onSave={handleSave}
