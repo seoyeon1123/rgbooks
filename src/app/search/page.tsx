@@ -1,6 +1,5 @@
 'use client';
 
-import Loading from '@/components/common/Loading';
 import Error from '@/components/common/Error';
 import BooksList from '@/components/main/BooksList';
 import { Book } from '@/types/bookTypes';
@@ -38,7 +37,6 @@ const SearchPage = () => {
 
         setResults(data);
       } catch (error) {
-        console.error('검색 요청 중 오류:', error);
         setError('검색 요청 중 오류가 발생했습니다.');
       } finally {
         setLoading(false);
