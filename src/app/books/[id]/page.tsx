@@ -133,7 +133,7 @@ const BookDetail = ({ params }: { params: { id: string } }) => {
                     }))
                   }
                   style={{
-                    width: `${Math.max(bookEditStateValue.title.length + 2, 1)}ch`,
+                    width: `${Math.max(bookEditStateValue.title.length + 3, 1)}ch`,
                   }}
                   className="text-4xl font-extrabold text-[#D84B16]
                     border-b-2 border-gray-300
