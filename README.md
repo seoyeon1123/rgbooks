@@ -307,13 +307,9 @@ npm run build
           "imageUrl": "https://image.jpg",
           "description": "책 설명"
         }
-      ],
-      "pagination": {
-        "page": 1,
-        "limit": 10,
-        "total": 100
-      }
+     ]
     }
+
     ```
 
   ### 2. **책 상세 조회 (GET /api/books/:id)**
@@ -413,6 +409,23 @@ npm run build
     ```
 
 
+### Prisma 모델
+
+이 시스템에서 사용하는 Prisma 모델은 다음과 같습니다:
+
+```prisma
+model Book {
+  id          Int       @id @default(autoincrement())
+  title       String
+  author      String
+  price       Float
+  quantity    Int
+  imageUrl    String?
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+```
 
 </details>
 
