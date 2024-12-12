@@ -30,7 +30,7 @@ const Page = () => {
   }
 
   return (
-    <div className=" mx-auto my-10 flex flex-col justify-center items-center h-full">
+    <div className=" mx-auto my-10 flex flex-col justify-start items-center min-h-screen ">
       <h1 className="text-4xl font-extrabold text-center mb-4 text-gray-800">
         📖 <span className="text-orange-600">전체</span> <span className="text-blue-600">책</span> 목록
       </h1>

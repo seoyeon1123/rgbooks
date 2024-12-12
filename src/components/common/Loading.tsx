@@ -6,7 +6,7 @@ import book4 from '../../../public/assets/loading/book4.png';
 
 const Loading = () => {
   return (
-    <div className="flex justify-center items-center h-screen bg-white">
+    <div className="flex w-full h-screen bg-white">
       <div className="flex flex-col gap-2 justify-start items-start mx-auto">
         <div className="flex flex-row gap-4 justify-center items-center">
           <Image
@@ -14,7 +14,7 @@ const Loading = () => {
             alt="book1"
             width={150}
             height={150}
-            className="animate-jumping w-[80px] h-[80px] sm:w-[80px] sm:h-[80px] md:w-[150px] md:h-[150px]"
+            className="animate-jumping sm:w-[80px] sm:h-[80px] md:w-[150px] md:h-[150px]"
             style={{ animationDelay: '0.2s' }}
           />
           <Image
@@ -22,7 +22,7 @@ const Loading = () => {
             alt="book2"
             width={150}
             height={150}
-            className="animate-jumping w-[80px] h-[80px] sm:w-[80px] sm:h-[80px] md:w-[150px] md:h-[150px]"
+            className="animate-jumping sm:w-[80px] sm:h-[80px] md:w-[150px] md:h-[150px]"
             style={{ animationDelay: '0.4s' }}
           />
           <Image
@@ -30,7 +30,7 @@ const Loading = () => {
             alt="book3"
             width={150}
             height={150}
-            className="animate-jumping w-[80px] h-[80px] sm:w-[80px] sm:h-[80px] md:w-[150px] md:h-[150px]"
+            className="animate-jumping  sm:w-[80px] sm:h-[80px] md:w-[150px] md:h-[150px]"
             style={{ animationDelay: '0.6s' }}
           />
           <Image

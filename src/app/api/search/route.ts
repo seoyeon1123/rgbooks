@@ -61,7 +61,6 @@ export async function GET(request: Request) {
       const titleWithoutSpaces = book.title.replace(/\s+/g, '');
       const authorWithoutSpaces = book.author.replace(/\s+/g, '');
 
-      // 공백 제거한 제목이나 저자가 검색어와 포함되는지 확인
       return titleWithoutSpaces.includes(queryWithoutSpaces) || authorWithoutSpaces.includes(queryWithoutSpaces);
     });
 

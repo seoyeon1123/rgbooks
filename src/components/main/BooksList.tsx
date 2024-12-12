@@ -17,8 +17,12 @@ const BooksList = ({ books, booksPerPage = 10 }: BooksListProps) => {
   const currentBooks = books.slice(startIndex, startIndex + booksPerPage);
 
   return (
-    <div className="h-full flex flex-col justify-center items-center ">
+    <div className="flex flex-col min-h-screen justify-between">
+      {' '}
+      {/* 변경: h-screen으로 전체 높이를 채움 */}
       <div className="flex-grow">
+        {' '}
+        {/* 변경: 콘텐츠 영역이 유동적으로 크기를 맞추도록 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
           {currentBooks.map((book) => (
             <Link
@@ -34,13 +38,13 @@ const BooksList = ({ books, booksPerPage = 10 }: BooksListProps) => {
           ))}
         </div>
       </div>
-
       {totalPages > 1 && (
-        <div className="flex justify-center items-center py-4">
+        <div className="flex justify-center items-center py-4 mb-4">
+          {' '}
+          {/* 변경: mb-4로 아래 여백을 주어 고정된 하단 위치 */}
           <button disabled={currentPage === 1}>
             <ChevronLeftIcon className="size-7 text-gray-400 " onClick={() => setCurrentPage(currentPage - 1)} />
           </button>
-
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index}
@@ -51,7 +55,6 @@ const BooksList = ({ books, booksPerPage = 10 }: BooksListProps) => {
               {index + 1}
             </button>
           ))}
-
           <button disabled={currentPage === totalPages}>
             <ChevronRightIcon className="size-7 text-gray-500 " onClick={() => setCurrentPage(currentPage + 1)} />
           </button>
