@@ -429,3 +429,70 @@ model Book {
 
 </details>
 
+---
+
+## 테스트 코드
+
+이 프로젝트는 **Jest**와 **React Testing Library**를 사용하여 테스트가 작성되었습니다. 주요 기능에 대한 단위 테스트를 포함하고 있으며, 테스트는 각 컴포넌트의 렌더링, 동작, API 호출 등을 확인하는 데 중점을 두고 있습니다.
+
+### 사용된 주요 도구
+- **Jest**: JavaScript 테스트 프레임워크
+- **React Testing Library**: React 컴포넌트의 렌더링 및 사용자 상호작용을 테스트하는 도구
+- **Next.js**의 `useSearchParams` 훅을 모킹하여 쿼리 파라미터를 테스트
+
+### 테스트 코드
+
+<details>
+  <summary>테스트 코드 보기</summary>
+
+```tsx
+import { render, screen, waitFor } from '@testing-library/react';
+import SearchPage from '@/app/search/page';
+import { useSearchParams } from 'next/navigation';
+
+// useSearchParams 훅을 모킹
+jest.mock('next/navigation', () => ({
+  useSearchParams: jest.fn(),
+}));
+
+describe('SearchPage', () => {
+  it('should display search results for author "허승희"', async () => {
+    (useSearchParams as jest.Mock).mockReturnValue({
+      get: (key: string) => {
+        if (key === 'query') return '허승희';
+        if (key === 'option') return '통합검색';
+        return null;
+      },
+    });
+
+    const mockResults = [
+      {
+        id: 32,
+        title: '엄마의 대화력',
+        author: '허승희',
+        price: 19000,
+        quantity: 12,
+        imageUrl:
+          'https://hfaergimikwprxpcquxh.supabase.co/storage/v1/object/public/book-image/1733901369593_9791191378634.jpg',
+        description:
+          '수많은 육아서와 교육 전문가들은 세상의 엄마들에게 이런 부담을 지우고 있다...',
+        createdAt: '2024-12-11T07:16:37.699Z',
+        updatedAt: '2024-12-11T07:16:37.699Z',
+      },
+    ];
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue(mockResults),
+    });
+
+    render(<SearchPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText('엄마의 대화력')).toBeInTheDocument();
+    });
+  });
+});
+```
+
+</detail>
