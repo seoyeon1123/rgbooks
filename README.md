@@ -441,6 +441,7 @@ model Book {
 - **Next.js**의 `useSearchParams` 훅을 모킹하여 쿼리 파라미터를 테스트
 
 ### 테스트 코드
+`SearchPage` 컴포넌트에 대한 테스트 예시입니다. 이 테스트는 쿼리 파라미터가 `"허승희"`로 설정된 경우, 해당 저자의 책 목록을 정상적으로 렌더링하는지 확인합니다.
 
 <details>
   <summary>테스트 코드 보기</summary>
