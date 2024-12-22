@@ -14,8 +14,8 @@
 
 ## 🕸️ 배포 사이트
 
-> [rgbooks.vercel.app](rgbooks.vercel.app)
-
+[> [rgbooks.vercel.app](rgbooks.vercel.app)
+](https://rgbooks.vercel.app/)
 
 ## 버전
 > - "next": "13.5.7"
